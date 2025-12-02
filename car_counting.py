@@ -94,6 +94,7 @@ with sv.VideoSink(target_path="display.mp4", video_info=video_info) as sink:
     for frame in sv.get_video_frames_generator(video_path):
         result = model(frame, conf=0.5)[0]
         detections = sv.Detections.from_ultralytics(result)
+        detections = detections[detections.class_id != 0]
         tracked_detections = tracker.update_with_detections(detections=detections)
 
         # Filter detections inside polygon
@@ -125,7 +126,7 @@ with sv.VideoSink(target_path="display.mp4", video_info=video_info) as sink:
         # Display counts
         cv2.putText(
             new_frame,
-            f"IN: {len(crossed_in_ids)}  OUT: {len(crossed_out_ids)}",
+            f"COUNTER: {len(crossed_out_ids)}",
             (50, 50),
             cv2.FONT_HERSHEY_SIMPLEX,
             1.5,
@@ -135,3 +136,5 @@ with sv.VideoSink(target_path="display.mp4", video_info=video_info) as sink:
         )
 
         sink.write_frame(new_frame)
+        
+print(crossed_out_ids)

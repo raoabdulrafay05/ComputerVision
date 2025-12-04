@@ -41,7 +41,7 @@ class handDetector():
 
     def findPosition(self, img, idx=0, draw=True):
 
-        lmList = []
+        self.lmList = []
         if self.results.multi_hand_landmarks:
             for idx,myHand in enumerate(self.results.multi_hand_landmarks):
                 # print(idx)
@@ -51,11 +51,33 @@ class handDetector():
                     h, w, c = img.shape
                     cx, cy = int(lm.x * w), int(lm.y * h)
                     # print(id, cx, cy)
-                    lmList.append([id, cx, cy])
+                    self.lmList.append([id, cx, cy])
                     if draw:
                         cv2.circle(img, (cx, cy), 15, (255, 0, 255), cv2.FILLED)
 
-        return lmList
+        return self.lmList
+    
+    
+    def findTwoFingerPosition(self, idx1, idx2, img, draw=True):
+        
+        x,y = 0,0
+        landmark = None
+        if self.lmList:
+            x1, y1 = self.lmList[idx1][1], self.lmList[idx1][2]
+            x2, y2 = self.lmList[idx2][1], self.lmList[idx2][2]
+            x = (x1 + x2) // 2
+            y = (y1 + y2) // 2
+            
+            if draw:
+                cv2.circle(img, (x1, y1), 10, (255, 0, 0), cv2.FILLED)
+                cv2.circle(img, (x2, y2), 10, (255, 0, 0), cv2.FILLED)
+                cv2.line(img, (x1, y1), (x2, y2), (255, 0, 0), 3)
+                cv2.circle(img, (x, y), 10, (0, 0, 255), cv2.FILLED)
+                
+        if landmark is None:
+            return None, None
+        return x, y
+                    
 
 
 def main():
@@ -68,6 +90,7 @@ def main():
         frame = img.copy()
         frame, right, left = detector.findHands(img)
         lmList = detector.findPosition(img)
+        x_val , y_val = detector.findTwoFingerPosition(8,12,img)
         count = 10
         
         if not right :

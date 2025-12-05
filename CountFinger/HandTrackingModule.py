@@ -1,6 +1,7 @@
 import cv2
 import mediapipe as mp
 import time
+import math
 
 
 class handDetector():
@@ -39,7 +40,7 @@ class handDetector():
                     left = True
         return img, right, left
 
-    def findPosition(self, img, idx=0, draw=True):
+    def findPosition(self, img, idx=0, draw=False):
 
         self.lmList = []
         if self.results.multi_hand_landmarks:
@@ -61,7 +62,6 @@ class handDetector():
     def findTwoFingerPosition(self, idx1, idx2, img, draw=True):
         
         x,y = 0,0
-        landmark = None
         if self.lmList:
             x1, y1 = self.lmList[idx1][1], self.lmList[idx1][2]
             x2, y2 = self.lmList[idx2][1], self.lmList[idx2][2]
@@ -72,11 +72,10 @@ class handDetector():
                 cv2.circle(img, (x1, y1), 10, (255, 0, 0), cv2.FILLED)
                 cv2.circle(img, (x2, y2), 10, (255, 0, 0), cv2.FILLED)
                 cv2.line(img, (x1, y1), (x2, y2), (255, 0, 0), 3)
-                cv2.circle(img, (x, y), 10, (0, 0, 255), cv2.FILLED)
+                cv2.circle(img, (x, y), 15, (0, 0, 255), cv2.FILLED)
+            length = math.hypot(x2-x1, y2-y1)
                 
-        if landmark is None:
-            return None, None
-        return x, y
+        return length,img, x,y
                     
 
 

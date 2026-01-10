@@ -15,6 +15,8 @@ width, height = 105, 42
 
 def checkParkingSlot(imgProcess):
     
+    
+    free_space = 0
     for pos in posList:
         x,y = pos
 
@@ -28,7 +30,7 @@ def checkParkingSlot(imgProcess):
             
             color = (0,255,0)
             thickness = 5
-            
+            free_space += 1
         else:
             
             color = (0,0,255)
@@ -36,6 +38,7 @@ def checkParkingSlot(imgProcess):
             
         cv2.rectangle(img, (pos[0], pos[1]), (pos[0] + width, pos[1]+height), color, thickness)
         cvzone.putTextRect(img, str(count), (x, y+height-2), 1, 1, offset=0)
+    cvzone.putTextRect(img, f"{str(free_space)}/{str(len(posList))}", (100,70),2,2,(200,30,200))
 
 
 

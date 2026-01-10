@@ -11,9 +11,7 @@ try:
 except:
     posList = []
 
-posList = []
-
-img = cv2.imread("cv/CarParkCount/carParking.png")
+# img = cv2.imread("cv/CarParkCount/CarParking.png")
 
 def mouseClick(event, x, y, flags, params):
     
@@ -39,7 +37,7 @@ def mouseClick(event, x, y, flags, params):
 while True:
     
     
-    img = cv2.imread("cv/CarParkCount/carParking.png")
+    img = cv2.imread("cv/CarParkCount/CarParking.png")
 
     # cv2.rectangle(img, (50, 100), (155, 140), (0,255,0), 1)
     
@@ -47,8 +45,11 @@ while True:
         
         cv2.rectangle(img, (pos[0], pos[1]), (pos[0] + width, pos[1]+height), (0,255,0), 1)
     
-    cv2.imshow("img", img)
+    cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
+
+# 2. Show the image in that specific window
+    cv2.imshow("Image", img)
     
-    cv2.setMouseCallback("img", mouseClick)
+    cv2.setMouseCallback("Image", mouseClick)
     
     cv2.waitKey(1)

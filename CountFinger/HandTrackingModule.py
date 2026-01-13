@@ -89,7 +89,7 @@ def main():
         frame = img.copy()
         frame, right, left = detector.findHands(img)
         lmList = detector.findPosition(img)
-        x_val , y_val = detector.findTwoFingerPosition(8,12,img)
+        # x_val , y_val = detector.findTwoFingerPosition(8,12,img)
         count = 10
         
         if not right :

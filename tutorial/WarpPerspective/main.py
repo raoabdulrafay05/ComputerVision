@@ -3,20 +3,14 @@ import numpy as np
 
 img = cv2.imread("cv/tutorial/WarpPerspective/image.png")
 
-width, height = 250, 350
+width, height = 250, 350 # -> Ratio of card is 2.5 to 3.5
 
 points1 = np.array([
-    [518, 435],
-    [1368, 359],
-    [694, 1708],
-    [1613, 1549]
+    [518, 435],[1368, 359],[694, 1708],[1613, 1549] # -> area selected to warp the perspective
 ], dtype=np.float32)
 
 points2 = np.array([
-    [0, 0],            # top-left
-    [width, 0],        # top-right
-    [0, height],       # bottom-left
-    [width, height]    # bottom-right
+    [0, 0],[width, 0],[0, height],[width, height] # -> map our points exactly to give in warp function
 ], dtype=np.float32)
 
 matrix = cv2.getPerspectiveTransform(points1, points2)

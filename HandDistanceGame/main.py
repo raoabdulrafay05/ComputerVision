@@ -93,6 +93,7 @@ while True:
         cv2.putText(img, f"Press R to Restart", (110, 320), cv2.FONT_HERSHEY_DUPLEX, 2,(0,0,0), 1)
         
         if cv2.waitKey(1) & 0xFF == ord('r'):
+            score = 0
             watch = 1
             timeStart = time.time()
     

@@ -3,7 +3,7 @@ import numpy as np
 
 
 
-cv2.namedWindow("HSV")
+cv2.namedWindow("HSV", cv2.WINDOW_NORMAL)
 
 def dummy():
     pass
@@ -16,10 +16,12 @@ cv2.createTrackbar("Value Min", "HSV", 0, 255, dummy)
 cv2.createTrackbar("Value Max", "HSV", 255, 255, dummy)
 
 
+img = cv2.imread("cv/tutorial/RealTimeColorDetection/image.png")
+imgHsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+
 while True:
     
-    img = cv2.imread("cv/tutorial/RealTimeColorDetection/image.png")
-    imgHsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     
     h_min = cv2.getTrackbarPos("Hue Min", "HSV")
     h_max = cv2.getTrackbarPos("Hue Max", "HSV")

@@ -10,8 +10,8 @@ def dummy(x):
 
 cv2.namedWindow("Parameters", cv2.WINDOW_AUTOSIZE)
 
-cv2.createTrackbar("threshold1", "Parameters",149, 255, dummy)
-cv2.createTrackbar("threshold2", "Parameters", 255,255, dummy)
+cv2.createTrackbar("threshold1", "Parameters",12, 255, dummy)
+cv2.createTrackbar("threshold2", "Parameters", 19,255, dummy)
 
 
 def stackImages(scale,imgArray):
@@ -50,7 +50,28 @@ def findContours(imgDil, img):
     contours, hierarchy = cv2.findContours(imgDil, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     
     cv2.drawContours(img, contours, -1, (255,0,255), 7)
+    
+    count = 0
+    for cnt in contours:
+        
+        area = cv2.contourArea(cnt)
+        if area > 30000:
+            cv2.drawContours(img, cnt, -1, (255,0,255), 5)
+            cv2.putText(img, f"{count+1}", (200, 200), cv2.FONT_HERSHEY_PLAIN, 2, (0,255,0), 2)
 
+            peri = cv2.arcLength(cnt, True)
+            approx = cv2.approxPolyDP(cnt, 0.02 * peri ,True)
+            print(len(approx))
+            
+            x, y, w, h = cv2.boundingRect(approx)
+            cv2.rectangle(img, (x,y), (x+w, y+h), (0,0,255), 3)
+            print(count)
+            print(area)
+            
+        count+=1
+        
+
+        
 while True:
     
     img1 = img.copy()
